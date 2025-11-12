@@ -1,8 +1,8 @@
 export const tokens = {
   colors: {
     primary: "#e2f12d",
-    primaryHover: "#616677ff",
-    textOnPrimary: "#ffffff",
+    primaryHover: "#b1b8adff",
+    textOnPrimary: "#3c3f42ff",
 
     secondary: "#33ea5eff",
     secondaryHover: "#616677ff",
@@ -10,7 +10,7 @@ export const tokens = {
 
     border: "#3c3f42ff",
     background: "#ffffff",
-    text: "#17181cff",
+    text: "#1b171cff",
   },
   radius: {
     sm: "4px",

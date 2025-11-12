@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Salon Booking SPA API (In-Memory)
+  version: 0.1.0
+  description: Minimal REST contract for booking operations (dummy in-memory implementation)
+servers:
+  - url: http://localhost:5173/api
+paths:
+  /services:
+    get:
+      summary: List services
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Service"
+  /hairdressers:
+    get:
+      summary: List hairdressers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Hairdresser"
+  /timeslots:
+    get:
+      summary: List available time slots
+      parameters:
+        - in: query
+          name: date
+          schema:
+            type: string
+            format: date
+          required: true
+        - in: query
+          name: hairdresserId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TimeSlot"
+  /appointments:
+    get:
+      summary: List user appointments
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Appointment"
+    post:
+      summary: Create appointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAppointmentRequest"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Appointment"
+        "400":
+          description: Invalid slot or policy violation
+  /appointments/{id}:
+    delete:
+      summary: Cancel appointment (releases slots)
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+      responses:
+        "204":
+          description: Cancelled
+        "400":
+          description: Cancellation window violation
+components:
+  schemas:
+    Service:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        durationMinutes: { type: integer, example: 30 }
+    Hairdresser:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+    TimeSlot:
+      type: object
+      properties:
+        id: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        hairdresserId: { type: string }
+        serviceId: { type: string }
+        status: { type: string, enum: [available, held, booked] }
+    Appointment:
+      type: object
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        hairdresserId: { type: string }
+        serviceId: { type: string }
+        start: { type: string, format: date-time }
+        end: { type: string, format: date-time }
+        status: { type: string, enum: [upcoming, cancelled, completed] }
+        createdAt: { type: string, format: date-time }
+        cancelledAt: { type: string, format: date-time, nullable: true }
+    CreateAppointmentRequest:
+      type: object
+      required: [userId, timeSlotId]
+      properties:
+        userId: { type: string }
+        timeSlotId: { type: string }
