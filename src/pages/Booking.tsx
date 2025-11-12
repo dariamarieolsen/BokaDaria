@@ -8,7 +8,7 @@ import TimeSlotPicker from "../components/TimeSlotPicker";
 import AppointmentList from "../components/AppointmentList";
 import type { Appointment, PaymentMethod } from "../types";
 import { store } from "../data/store";
-import { Button } from "@mui/material";
+import { Button, Modal } from "@mui/material";
 
 export default function Booking() {
   const services = listServices();
@@ -25,6 +25,7 @@ export default function Booking() {
   const [note, setNote] = useState("");
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod>("card");
   const [, setTick] = useState(0);
+  const formRef = useRef<HTMLFormElement | null>(null);
 
   useEffect(() => {
     setDocumentTitle("Booking — BokaDaria");
@@ -40,17 +41,21 @@ export default function Booking() {
   const bookingDate = new Date(date + "T00:00:00");
   const appts = user ? listAppointments(user.id) : { upcoming: [], previous: [] };
 
-  //   function openModal() {
-  //     setError("");
-  //     setMessage("");
-
-  //     if (!selectedSlot) {
-  //       setError("Select a slot.");
-  //       return;
-  //     }
-  //     // Prefill name from user if not set
-  //     if (!customerName && user?.name) setCustomerName(user.name);
-  //   }
+  // Clear selection only when clicking outside the form area and when modal is not open
+  useEffect(() => {
+    function onDocClick(e: MouseEvent) {
+      if (showModal) return; // keep selection while modal is open
+      const target = e.target as Node | null;
+      const el = formRef.current;
+      if (!el) return;
+      if (!target) return;
+      if (!el.contains(target)) {
+        setSelectedSlot("");
+      }
+    }
+    document.addEventListener("click", onDocClick);
+    return () => document.removeEventListener("click", onDocClick);
+  }, [showModal]);
 
   function confirmBooking() {
     const safeName = customerName.trim().slice(0, 60);
@@ -110,6 +115,10 @@ export default function Booking() {
 
   const paymentOptions: string[] = ["card", "swish", "cash"];
 
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
   return (
     <div className="container" aria-labelledby="booking-title">
       <h1 id="booking-title">Booking</h1>
@@ -119,8 +128,13 @@ export default function Booking() {
           className="form"
           onSubmit={(e) => {
             e.preventDefault();
+            if (!selectedSlot) {
+              setError("Select a slot first.");
+              return;
+            }
             setShowModal(true);
           }}
+          ref={formRef}
         >
           <div>
             <label htmlFor="service">Service</label>
@@ -150,7 +164,12 @@ export default function Booking() {
             <label>Slots</label>
             <TimeSlotPicker date={bookingDate} selected={selectedSlot} onSelect={setSelectedSlot} />
           </div>
-          <button type="submit" className="btn primary">
+          <button
+            type="submit"
+            className="btn primary"
+            disabled={selectedSlot === ""}
+            style={{ backgroundColor: selectedSlot ? "var(--color-primary)" : "var(--color-disabled-button)", color: selectedSlot ? "var(--color-text)" : "var(--color-disabled-button-text)" }}
+          >
             Book selected slot
           </button>
           <div aria-live="polite" className="error" style={{ minHeight: "1.2em" }}>
@@ -163,47 +182,52 @@ export default function Booking() {
       </div>
 
       {showModal && (
-        <Modal onClose={() => setShowModal(false)}>
-          <h2 id="book-dialog-title">Confirm booking</h2>
-          <p id="book-dialog-desc">Enter your contact info and a note for the hairdresser (optional).</p>
-          <form
-            className="form"
-            onSubmit={(e) => {
-              e.preventDefault();
-              confirmBooking();
-            }}
-          >
-            <div>
-              <label htmlFor="paymentMethod">Payment options</label>
-              <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-                {paymentOptions.map((option) => (
-                  <Button key={option} variant="outlined" onClick={() => setPaymentMethod(option as PaymentMethod)}>
-                    {option}
-                  </Button>
-                ))}
-              </div>
+        <Modal open={showModal} onClose={closeModal}>
+          <div className="modal-overlay">
+            <div className="modal" role="dialog" aria-modal="true" aria-labelledby="book-dialog-title" aria-describedby="book-dialog-desc">
+              <h2 id="book-dialog-title">Confirm booking for {selectedSlot}</h2>
+              <p id="book-dialog-desc">Enter your contact info and a note for the hairdresser (optional).</p>
+              <form
+                typeof="form"
+                className="form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  confirmBooking();
+                }}
+              >
+                <div>
+                  <label htmlFor="paymentMethod">Payment options</label>
+                  <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
+                    {paymentOptions.map((option) => (
+                      <button key={option} className="btn" onClick={() => setPaymentMethod(option as PaymentMethod)}>
+                        {option}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div>
+                  <label htmlFor="customerName">Full name</label>
+                  <input id="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} required />
+                </div>
+                <div>
+                  <label htmlFor="customerPhone">Phone</label>
+                  <input id="customerPhone" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} required />
+                </div>
+                <div>
+                  <label htmlFor="note">Note</label>
+                  <input id="note" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything we should know?" />
+                </div>
+                <div className="actions">
+                  <button type="button" className="btn" onClick={() => setShowModal(false)}>
+                    Cancel
+                  </button>
+                  <button type="submit" className="btn primary">
+                    Confirm booking
+                  </button>
+                </div>
+              </form>
             </div>
-            <div>
-              <label htmlFor="customerName">Full name</label>
-              <input id="customerName" value={customerName} onChange={(e) => setCustomerName(e.target.value)} required />
-            </div>
-            <div>
-              <label htmlFor="customerPhone">Phone</label>
-              <input id="customerPhone" value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} required />
-            </div>
-            <div>
-              <label htmlFor="note">Note</label>
-              <input id="note" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything we should know?" />
-            </div>
-            <div className="actions">
-              <button type="button" className="btn" onClick={() => setShowModal(false)}>
-                Cancel
-              </button>
-              <button type="submit" className="btn primary">
-                Confirm booking
-              </button>
-            </div>
-          </form>
+          </div>
         </Modal>
       )}
 
@@ -218,60 +242,60 @@ export default function Booking() {
   );
 }
 
-// Accessible modal with simple focus trap
-function Modal({ children, onClose }: { children: ReactNode; onClose: () => void }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  // Keep latest onClose without retriggering mount logic
-  const onCloseRef = useRef(onClose);
-  useEffect(() => {
-    onCloseRef.current = onClose;
-  }, [onClose]);
+// // Accessible modal with simple focus trap
+// function Modal({ children, onClose }: { children: ReactNode; onClose: () => void }) {
+//   const ref = useRef<HTMLDivElement | null>(null);
+//   // Keep latest onClose without retriggering mount logic
+//   const onCloseRef = useRef(onClose);
+//   useEffect(() => {
+//     onCloseRef.current = onClose;
+//   }, [onClose]);
 
-  useEffect(() => {
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const el = ref.current;
-    // Focus first focusable once on mount only
-    requestAnimationFrame(() => {
-      const focusables = el?.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-      focusables?.[0]?.focus();
-    });
-    function onKey(e: KeyboardEvent) {
-      if (e.key === "Escape") {
-        e.preventDefault();
-        onCloseRef.current();
-      }
-      if (e.key === "Tab") {
-        const focusables = el?.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        if (!focusables || focusables.length === 0) return;
-        const first = focusables[0];
-        const last = focusables[focusables.length - 1];
-        const active = document.activeElement as HTMLElement | null;
-        if (e.shiftKey) {
-          if (active === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (active === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-    }
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.body.style.overflow = prevOverflow;
-      document.removeEventListener("keydown", onKey);
-    };
-  }, []);
+//   useEffect(() => {
+//     const prevOverflow = document.body.style.overflow;
+//     document.body.style.overflow = "hidden";
+//     const el = ref.current;
+//     // Focus first focusable once on mount only
+//     requestAnimationFrame(() => {
+//       const focusables = el?.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+//       focusables?.[0]?.focus();
+//     });
+//     function onKey(e: KeyboardEvent) {
+//       if (e.key === "Escape") {
+//         e.preventDefault();
+//         onCloseRef.current();
+//       }
+//       if (e.key === "Tab") {
+//         const focusables = el?.querySelectorAll<HTMLElement>('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+//         if (!focusables || focusables.length === 0) return;
+//         const first = focusables[0];
+//         const last = focusables[focusables.length - 1];
+//         const active = document.activeElement as HTMLElement | null;
+//         if (e.shiftKey) {
+//           if (active === first) {
+//             e.preventDefault();
+//             last.focus();
+//           }
+//         } else {
+//           if (active === last) {
+//             e.preventDefault();
+//             first.focus();
+//           }
+//         }
+//       }
+//     }
+//     document.addEventListener("keydown", onKey);
+//     return () => {
+//       document.body.style.overflow = prevOverflow;
+//       document.removeEventListener("keydown", onKey);
+//     };
+//   }, []);
 
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal" role="dialog" aria-modal="true" aria-labelledby="book-dialog-title" aria-describedby="book-dialog-desc" onClick={(e) => e.stopPropagation()} ref={ref}>
-        {children}
-      </div>
-    </div>
-  );
-}
+//   return (
+//     <div className="modal-overlay" onClick={onClose}>
+//       <div className="modal" role="dialog" aria-modal="true" aria-labelledby="book-dialog-title" aria-describedby="book-dialog-desc" onClick={(e) => e.stopPropagation()} ref={ref}>
+//         {children}
+//       </div>
+//     </div>
+//   );
+// }

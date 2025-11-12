@@ -48,6 +48,8 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--color-border", colors.border);
     root.style.setProperty("--color-bg", colors.background);
     root.style.setProperty("--color-text", colors.text);
+    root.style.setProperty("--color-disabled-button", colors.disabled);
+    root.style.setProperty("--color-disabled-button-text", colors.disabledText);
 
     root.style.setProperty("--radius-sm", radius.sm);
     root.style.setProperty("--radius-md", radius.md);

@@ -11,6 +11,9 @@ export const tokens = {
     border: "#3c3f42ff",
     background: "#ffffff",
     text: "#1b171cff",
+
+    disabled: "#5f5959ff",
+    disabledText: "white",
   },
   radius: {
     sm: "4px",
