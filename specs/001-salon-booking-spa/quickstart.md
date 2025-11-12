@@ -18,7 +18,7 @@ Visit `http://localhost:5173`.
 
 - Single Page Application (React + TypeScript + Vite)
 - Routing with React Router (define in `src/router.tsx` and mount in `App.tsx`)
-- Theming: Use MUI `ThemeProvider` with tokens from `src/theme/dark.ts` and `tokens.ts`
+- Theming: Custom lightweight theme provider applies tokens from `src/theme/dark.ts` and `tokens.ts` to CSS variables (no external UI lib required)
 - Styling: Regular CSS in `src/styles/*.css` plus MUI component styling props
 - Data: Dummy in-memory collections (no backend)
 
@@ -74,8 +74,8 @@ Initialize arrays in a data module (e.g., `src/data/store.ts`) for:
 
 ## Performance Notes
 
-- Lazy load non-critical components (optional without new deps)
-- Keep bundle small by limiting MUI imports to specific components
+- Lazy load non-critical components (already enabled for routes)
+- Keep bundle small by avoiding large UI libraries unless needed
 
 ## Timezone & Slots
 
