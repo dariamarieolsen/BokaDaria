@@ -40,21 +40,17 @@ export default function Booking() {
   const bookingDate = new Date(date + "T00:00:00");
   const appts = user ? listAppointments(user.id) : { upcoming: [], previous: [] };
 
-  function openModal() {
-    setError("");
-    setMessage("");
-    if (!user) {
-      setError("You must log in first.");
-      return;
-    }
-    if (!selectedSlot) {
-      setError("Select a slot.");
-      return;
-    }
-    // Prefill name from user if not set
-    if (!customerName && user?.name) setCustomerName(user.name);
-    setShowModal(true);
-  }
+  //   function openModal() {
+  //     setError("");
+  //     setMessage("");
+
+  //     if (!selectedSlot) {
+  //       setError("Select a slot.");
+  //       return;
+  //     }
+  //     // Prefill name from user if not set
+  //     if (!customerName && user?.name) setCustomerName(user.name);
+  //   }
 
   function confirmBooking() {
     const safeName = customerName.trim().slice(0, 60);
@@ -123,7 +119,7 @@ export default function Booking() {
           className="form"
           onSubmit={(e) => {
             e.preventDefault();
-            openModal();
+            setShowModal(true);
           }}
         >
           <div>
