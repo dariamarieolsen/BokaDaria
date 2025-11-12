@@ -57,6 +57,18 @@
   color: var(--color-text);
 }
 
+.btn:focus {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+  font-weight: bold;
+}
+
+.btn:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+  font-weight: bold;
+}
+
 /* Forms */
 .form {
   display: grid;
@@ -101,6 +113,17 @@
 }
 .slot.available {
   cursor: pointer;
+}
+
+/* Dim and disable interaction for any disabled slot button */
+.slot:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.selected {
+  font-weight: bolder;
 }
 
 /* Lists */

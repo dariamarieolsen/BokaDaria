@@ -18,10 +18,14 @@ export function TimeSlotPicker({ date, selected, onSelect }: TimeSlotPickerProps
         return (
           <button
             key={s.time}
+            //so button is not treated as submit button in a form
+            type="button"
             disabled={s.booked || past}
-            className={`slot card ${s.booked ? "booked" : "available"} ${isSelected ? "selected" : ""}`}
+            className={`slot card btn ${s.booked || past ? "booked" : "available"}`}
             aria-pressed={isSelected}
-            onClick={() => onSelect(s.time)}
+            onClick={() => {
+              onSelect(s.time), console.log(s.time);
+            }}
           >
             {formatSlot(d)}
           </button>
