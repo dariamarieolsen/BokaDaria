@@ -23,8 +23,10 @@ export function TimeSlotPicker({ date, selected, onSelect }: TimeSlotPickerProps
             disabled={s.booked || past}
             className={`slot card btn ${s.booked || past ? "booked" : "available"}`}
             aria-pressed={isSelected}
-            onClick={() => {
-              onSelect(s.time), console.log(s.time);
+            onClick={(e) => {
+              // Prevent bubbling to any parent click handlers that might clear selection
+              e.stopPropagation();
+              onSelect(s.time);
             }}
           >
             {formatSlot(d)}
