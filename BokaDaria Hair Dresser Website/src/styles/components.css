@@ -52,6 +52,13 @@
 .btn.primary:hover {
   background: var(--color-primary-hover);
 }
+
+.btn.primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
 .btn.ghost {
   background: transparent;
   color: var(--color-text);
@@ -67,6 +74,9 @@
   outline: var(--focus-ring);
   outline-offset: 2px;
   font-weight: bold;
+}
+.btn:active {
+  border: 2px solid blue;
 }
 
 /* Forms */
@@ -122,6 +132,10 @@
   pointer-events: none;
 }
 
+.slot[aria-pressed="true"] {
+  outline: var(--focus-ring);
+}
+
 .selected {
   font-weight: bolder;
 }
@@ -147,10 +161,10 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
 }
 .modal {
@@ -161,6 +175,7 @@
   width: 50%;
   padding: var(--space-lg);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  margin: 0;
 }
 .modal header {
   display: flex;
