@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from "react";
-import type { ReactNode } from "react";
 import { setDocumentTitle, setMetaDescription } from "../utils/seo";
 import { listServices, listHairdressers } from "../services/catalog";
 import { createAppointment, listAppointments, deleteAppointment } from "../services/appointments";
@@ -8,7 +7,7 @@ import TimeSlotPicker from "../components/TimeSlotPicker";
 import AppointmentList from "../components/AppointmentList";
 import type { Appointment, PaymentMethod } from "../types";
 import { store } from "../data/store";
-import { Button, Modal } from "@mui/material";
+import { Modal } from "@mui/material";
 
 export default function Booking() {
   const services = listServices();
