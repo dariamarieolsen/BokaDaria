@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-import { createBrowserRouter, RouterProvider, Outlet, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { store } from "./data/store";
@@ -31,25 +31,6 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Layout />,
-    children: [
-      { index: true, element: <Landing /> },
-      { path: "login", element: <Login /> },
-      {
-        path: "booking",
-        element: (
-          <RequireAuth>
-            <Booking />
-          </RequireAuth>
-        ),
-      },
-    ],
-  },
-]);
-
 export function AppRouter() {
   return (
     <Suspense
@@ -59,9 +40,25 @@ export function AppRouter() {
         </div>
       }
     >
-      <RouterProvider router={router} />
+      <BrowserRouter basename={import.meta.env.BASE_URL}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Landing />} />
+            <Route path="login" element={<Login />} />
+            <Route
+              path="booking"
+              element={
+                <RequireAuth>
+                  <Booking />
+                </RequireAuth>
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </Suspense>
   );
 }
 
-export default router;
+export default AppRouter;
