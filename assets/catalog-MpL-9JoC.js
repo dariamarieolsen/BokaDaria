@@ -1,0 +1,1 @@
+var e=[{id:`svc_haircut`,name:`Hair cut`,durationMins:30}],t=[{id:`hd_daria`,name:`Daria`}];function n(){return e}function r(){return t}export{n,r as t};

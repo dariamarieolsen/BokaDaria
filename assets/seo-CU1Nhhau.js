@@ -1,0 +1,1 @@
+function e(e){typeof document<`u`&&(document.title=e)}function t(e){if(typeof document>`u`)return;let t=document.querySelector(`meta[name="description"]`);t||(t=document.createElement(`meta`),t.name=`description`,document.head.appendChild(t)),t.content=e}export{t as n,e as t};
