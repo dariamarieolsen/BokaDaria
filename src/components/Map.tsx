@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
 import HairdresserIcon from '../assets/hairdresser.png'
+import process from 'process';
 
 
 
@@ -64,7 +65,7 @@ function Map() {
 	useEffect(() => {
 		if (!mapContainer.current) return;
 
-		mapboxgl.accessToken = 'pk.eyJ1IjoiZGFycmE5NCIsImEiOiJjbWllamE0cG0wM3I0M2dzOW01N24yazNrIn0.8ODn6lFUQEybH-weijZxeA';
+		mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAP || '';
 
 		mapRef.current = new mapboxgl.Map({
 			container: mapContainer.current,
