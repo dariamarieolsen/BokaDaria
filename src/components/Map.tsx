@@ -1,9 +1,6 @@
 import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import HairdresserIcon from '../assets/hairdresser.png'
-import process from 'process';
-
-
 
 function Map() {
 	const mapContainer = useRef<HTMLDivElement | null>(null);
@@ -57,8 +54,6 @@ function Map() {
 			.setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
 
 			.addTo(mapRef.current!);
-
-
 
 		return marker;
 	};
