@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import HairdresserIcon from '../assets/hairdresser.png'
 import process from 'process';
@@ -8,6 +8,7 @@ import process from 'process';
 function Map() {
 	const mapContainer = useRef<HTMLDivElement | null>(null);
 	const mapRef = useRef<mapboxgl.Map | null>(null);
+	const [error, setError] = useState<string | null>(null);
 
 
 	// const locations = [
@@ -65,13 +66,26 @@ function Map() {
 	useEffect(() => {
 		if (!mapContainer.current) return;
 
-		mapboxgl.accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAP || '';
+		const accessToken = import.meta.env.VITE_ACCESS_TOKEN_MAP;
+		if (!accessToken) {
+			setError('Mapbox access token is missing');
+			return;
+		}
 
-		mapRef.current = new mapboxgl.Map({
-			container: mapContainer.current,
-			center: [13.0038, 55.6050], // starting position [lng, lat]
-			zoom: 12, // starting zoom
-		});
+		mapboxgl.accessToken = accessToken;
+		console.log("Token is:", accessToken);
+
+
+		try {
+			mapRef.current = new mapboxgl.Map({
+				container: mapContainer.current,
+				center: [13.0038, 55.6050], // starting position [lng, lat]
+				zoom: 12, // starting zoom
+			});
+		} catch (err) {
+			setError('Failed to initialize map');
+			return;
+		}
 
 		mapRef.current.on('load', () => {
 			addMarkers();
@@ -82,6 +96,14 @@ function Map() {
 			mapRef.current = null;
 		};
 	}, []);
+
+	if (error) {
+		return (
+			<div className='mapContainer' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5', color: '#666' }}>
+				<p>Map unavailable: {error}</p>
+			</div>
+		);
+	}
 
 	return (
 		<div

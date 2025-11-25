@@ -57,7 +57,9 @@ export default function Landing() {
           </p>
         )}
       </section>
-      <section>
+
+      <section aria-labelledby="location" className="card">
+        <h2 id="location">Salons Location and map over places where you can by me gifts for the cut 😉</h2>
         <Map />
       </section>
     </div>
