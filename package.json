@@ -1,6 +1,6 @@
 {
   "name": "bokadaria-hair-dresser-website",
-  "homepage": "https://dariamarieolsen.github.io/BokaDaria",
+  "homepage": "https://dariamarieolsen.github.io/BokaDaria/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -15,7 +15,10 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.5",
     "@mui/material": "^7.3.5",
+    "gh-pages": "^6.3.0",
+    "mapbox-gl": "^3.16.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^6.28.0",

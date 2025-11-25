@@ -4,6 +4,7 @@ import { listServices } from "../services/catalog";
 import ServiceCard from "../components/ServiceCard";
 import { Link } from "react-router-dom";
 import { store } from "../data/store";
+import Map from "../components/Map";
 
 export default function Landing() {
   useEffect(() => {
@@ -16,18 +17,18 @@ export default function Landing() {
       <h1 id="landing-title">Welcome to BokaDaria</h1>
       {!store.user && (
         <p>
-          <Link to="/login" className="btn primary" style={{ display: "inline-block", marginBottom: "16px" }}>
+          <Link to="/login" className="btn primary" style={{ display: "inline-block" }}>
             Book appointment
           </Link>
         </p>
       )}
 
-      <section aria-labelledby="salon-info" className="card" style={{ marginBottom: "16px" }}>
+      <section aria-labelledby="salon-info" className="card">
         <h2 id="salon-info">About the Salon</h2>
         <p>Cozy salon offering quality hair services with personal attention. Located centrally, open Mon–Fri.</p>
       </section>
 
-      <section aria-labelledby="services" className="card" style={{ marginBottom: "16px" }}>
+      <section aria-labelledby="services" className="card">
         <h2 id="services">Services</h2>
         <div className="grid">
           {listServices().map((svc) => (
@@ -36,7 +37,7 @@ export default function Landing() {
         </div>
       </section>
 
-      <section aria-labelledby="hairdresser" className="card" style={{ marginBottom: "16px" }}>
+      <section aria-labelledby="hairdresser" className="card">
         <h2 id="hairdresser">Your Hairdresser</h2>
         <p>Daria — experienced and attentive. You’re in great hands.</p>
       </section>
@@ -55,6 +56,9 @@ export default function Landing() {
             </Link>
           </p>
         )}
+      </section>
+      <section>
+        <Map />
       </section>
     </div>
   );

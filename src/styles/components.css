@@ -1,6 +1,9 @@
 .container {
-  max-width: 1000px;
-  margin: 0 auto;
+  width: 100vh;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem !important;
 }
 .card {
   background: #ffffff10;
@@ -191,4 +194,20 @@
 }
 .modal .form {
   max-width: unset;
+}
+
+/* map */
+
+.mapContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 400px;
+  width: 100%;
+}
+
+.custom-marker {
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid black;
 }
