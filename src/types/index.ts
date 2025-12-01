@@ -1,4 +1,4 @@
-export type Service = { id: string; name: string; durationMins: number };
+export type Service = { id: string; name: string; durationMins: number, imageUrl?: string };
 export type Hairdresser = { id: string; name: string };
 export type PaymentMethod = "card" | "swish" | "cash";
 export type Appointment = {

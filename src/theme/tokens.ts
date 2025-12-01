@@ -1,12 +1,12 @@
 export const tokens = {
   colors: {
     primary: "#e2f12d",
-    primaryHover: "#b1b8adff",
+    primaryHover: "black",
     textOnPrimary: "#3c3f42ff",
 
     secondary: "#33ea5eff",
     secondaryHover: "#616677ff",
-    textOnSecondary: "#ffffff",
+    textOnSecondary: 'black',
 
     border: "#3c3f42ff",
     background: "#ffffff",

@@ -27,7 +27,7 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       localStorage.setItem("theme-mode", mode);
-    } catch {}
+    } catch { }
   }, [mode]);
 
   //setting css variables on :root on first render
@@ -43,8 +43,11 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--color-primary", colors.primary);
     root.style.setProperty("--color-primary-hover", colors.primaryHover);
     root.style.setProperty("--color-on-primary", colors.textOnPrimary);
-    root.style.setProperty("--color-secondary", colors.secondary ?? "#33ea5eff");
-    root.style.setProperty("--color-on-secondary", colors.textOnSecondary ?? "#ffffff");
+
+    root.style.setProperty("--color-secondary", colors.secondary);
+    root.style.setProperty("--color-secondary-hover", colors.secondaryHover);
+    root.style.setProperty("--color-on-secondary", colors.textOnSecondary);
+
     root.style.setProperty("--color-border", colors.border);
     root.style.setProperty("--color-bg", colors.background);
     root.style.setProperty("--color-text", colors.text);

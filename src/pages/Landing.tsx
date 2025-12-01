@@ -5,6 +5,7 @@ import ServiceCard from "../components/ServiceCard";
 import { Link } from "react-router-dom";
 import { store } from "../data/store";
 import Map from "../components/Map";
+import HeroImage from '../assets/scissors-hero.jpg';
 
 export default function Landing() {
   useEffect(() => {
@@ -14,28 +15,38 @@ export default function Landing() {
 
   return (
     <div className="container" aria-labelledby="landing-title">
-      <h1 id="landing-title">Welcome to BokaDaria</h1>
-      {!store.user && (
-        <p>
-          <Link to="/login" className="btn primary" style={{ display: "inline-block" }}>
-            Book appointment
-          </Link>
-        </p>
-      )}
+      <div style={{ backgroundImage: `url(${HeroImage})` }} className="hero-container">
+        <div>
+          <h1 id="landing-title">BokaDaria</h1>
+          {!store.user && (
+            <p>
+              <Link to="/login" className="btn">
+                Book appointment
+              </Link>
+            </p>
+          )}
+        </div>
+      </div>
 
-      <section aria-labelledby="salon-info" className="card">
+      <section aria-labelledby="salon-info" className="about">
         <h2 id="salon-info">About the Salon</h2>
-        <p>Cozy salon offering quality hair services with personal attention. Located centrally, open Mon–Fri.</p>
-      </section>
+        <div>
+          <p>Welcome to my little hobby-salon in the heart of Västra Hamnen, where the scissors are sharp, the vibes are cozy, and my boyfriend is the bravest client in Malmö.</p>
+          <p>What started as “Hmm… let me try something…” quickly turned into a passion for creating clean and fresh trims. I love the mix of precision and creativity that comes with cutting hair, and I treat every session as a chance to learn, laugh, and make someone feel great.</p>
+          <p>  My salon may be small, but it’s filled with good music, good energy, and sometime with a beer on the house.
 
-      <section aria-labelledby="services" className="card">
+            So welcome to my world—where home turns into a salon, hair becomes an experiment, and love is measured in millimeters.</p>
+        </div>
+      </section >
+
+      <section aria-labelledby="services">
         <h2 id="services">Services</h2>
-        <div className="grid">
+        <div className="service-container">
           {listServices().map((svc) => (
             <ServiceCard key={svc.id} service={svc} />
           ))}
         </div>
-      </section>
+      </section >
 
       <section aria-labelledby="hairdresser" className="card">
         <h2 id="hairdresser">Your Hairdresser</h2>
@@ -62,6 +73,6 @@ export default function Landing() {
         <h2 id="location">Salons Location and map over places where you can by me gifts for the cut 😉</h2>
         <Map />
       </section>
-    </div>
+    </div >
   );
 }
