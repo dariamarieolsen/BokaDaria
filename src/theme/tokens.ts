@@ -6,7 +6,7 @@ export const tokens = {
 
     secondary: "#33ea5eff",
     secondaryHover: "#616677ff",
-    textOnSecondary: 'black',
+    textOnSecondary: "#616677ff",
 
     border: "#3c3f42ff",
     background: "#ffffff",
@@ -14,6 +14,13 @@ export const tokens = {
 
     disabled: "#5f5959ff",
     disabledText: "white",
+
+    success: "#4BB543",
+    textOnSuccess: "#000000",
+    successHover: "#4c8c48ff",
+    warning: "#000000",
+    textOnWarning: "#FFFFFF",
+    warningHover: "#3c3f42ff",
   },
   radius: {
     sm: "4px",
@@ -23,7 +30,7 @@ export const tokens = {
   spacing: {
     sm: "8px",
     md: "12px",
-    lg: "16px",
+    lg: "32px",
   },
   font: {
     family: "IBM Plex Mono",

@@ -122,7 +122,7 @@ export default function Booking() {
     <div className="container" aria-labelledby="booking-title">
       <h1 id="booking-title">Booking</h1>
       <p>Timezone: {timezoneLabel()}</p>
-      <div className="card" style={{ marginBottom: "16px" }}>
+      <div className="card booking_form" style={{ marginBottom: "16px" }}>
         <form
           className="form"
           onSubmit={(e) => {
@@ -165,7 +165,7 @@ export default function Booking() {
           </div>
           <button
             type="submit"
-            className="btn primary"
+            className="btn add"
             disabled={selectedSlot === ""}
             style={{ backgroundColor: selectedSlot ? "var(--color-primary)" : "var(--color-disabled-button)", color: selectedSlot ? "var(--color-text)" : "var(--color-disabled-button-text)" }}
           >
@@ -174,7 +174,7 @@ export default function Booking() {
           <div aria-live="polite" className="error" style={{ minHeight: "1.2em" }}>
             {error}
           </div>
-          <div aria-live="polite" style={{ minHeight: "1.2em", color: "lime" }}>
+          <div aria-live="polite" style={{ minHeight: "1.2em", color: "var(--color-text)" }}>
             {message}
           </div>
         </form>
@@ -214,13 +214,13 @@ export default function Booking() {
                 </div>
                 <div>
                   <label htmlFor="note">Note</label>
-                  <input id="note" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything we should know?" />
+                  <input id="note" value={note} onChange={(e) => setNote(e.target.value)} placeholder="Anything I should know?" />
                 </div>
                 <div className="actions">
-                  <button type="button" className="btn" onClick={() => setShowModal(false)}>
+                  <button type="button" className="btn delete" onClick={() => setShowModal(false)}>
                     Cancel
                   </button>
-                  <button type="submit" className="btn primary">
+                  <button type="submit" className="btn add">
                     Confirm booking
                   </button>
                 </div>

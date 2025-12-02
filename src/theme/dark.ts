@@ -17,5 +17,12 @@ export const darkTheme = {
     border: "#33ea5eff",
     background: "#616677ff",
     text: "#e2f12d",
+
+    success: "#4BB543",
+    textOnSuccess: "#FFFFFF",
+    successHover: "#4c8c48ff",
+    warning: "#000000",
+    textOnWarning: "#FFFFFF",
+    warningHover: "#3c3f42ff",
   },
 };

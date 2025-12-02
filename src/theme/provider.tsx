@@ -54,6 +54,13 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
     root.style.setProperty("--color-disabled-button", colors.disabled);
     root.style.setProperty("--color-disabled-button-text", colors.disabledText);
 
+    root.style.setProperty("--color-success", colors.success);
+    root.style.setProperty("--color-warning", colors.warning);
+    root.style.setProperty("--color-on-success", colors.textOnSuccess);
+    root.style.setProperty("--color-on-warning", colors.textOnWarning);
+    root.style.setProperty("--color-success-hover", colors.successHover);
+    root.style.setProperty("--color-warning-hover", colors.warningHover);
+
     root.style.setProperty("--radius-sm", radius.sm);
     root.style.setProperty("--radius-md", radius.md);
     root.style.setProperty("--radius-lg", radius.lg);

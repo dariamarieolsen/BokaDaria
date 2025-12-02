@@ -3,7 +3,7 @@ import beerImage from '../assets/beer.png';
 import massageImage from '../assets/facial-massage.png';
 import scissors from '../assets/scissors_2.png';
 
-const services: Service[] = [{ id: "1", name: "Hair cut", durationMins: 30, imageUrl: scissors }, { id: "2", name: "Hair cut + 1 beer", durationMins: 30, imageUrl: beerImage }, { id: "3", name: "Hair cut + 1 beer + neck massage", durationMins: 45, imageUrl: massageImage }];
+const services: Service[] = [{ id: "1", name: "Hair cut", durationMins: 30, imageUrl: scissors }, { id: "2", name: "Hair cut + 1 beer/drink", durationMins: 30, imageUrl: beerImage }, { id: "3", name: "Hair cut + 1 beer + neck massage", durationMins: 45, imageUrl: massageImage }];
 
 const hairdressers: Hairdresser[] = [{ id: "hd_daria", name: "Daria" }];
 

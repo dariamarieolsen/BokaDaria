@@ -34,7 +34,7 @@ export default function Login() {
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         </div>
-        <button className="btn primary" type="submit">
+        <button className="btn regular" type="submit">
           Sign in
         </button>
         <div id="login-error" className="error" aria-live="polite">
