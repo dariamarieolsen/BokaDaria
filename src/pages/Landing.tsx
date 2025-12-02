@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { setDocumentTitle, setMetaDescription } from "../utils/seo";
 import { listServices } from "../services/catalog";
 import ServiceCard from "../components/ServiceCard";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { store } from "../data/store";
 import Map from "../components/Map";
 import HeroImage from "../assets/scissors_grey.jpg";
