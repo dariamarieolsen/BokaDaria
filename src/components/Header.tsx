@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { useTheme } from "../theme/provider";
+import { useTheme } from "../theme/useTheme";
 import "../styles/header.css";
 import Hamburger from "./Hamburger";
 
