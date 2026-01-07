@@ -95,8 +95,8 @@ export default function Booking() {
       setNote("");
       setPaymentMethod("card");
       setTick((t) => t + 1);
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "An error occurred");
     }
   }
 
@@ -107,8 +107,8 @@ export default function Booking() {
       deleteAppointment(id);
       setMessage("Appointment canceled.");
       setTick((t) => t + 1);
-    } catch (e: any) {
-      setError(e.message);
+    } catch (e: unknown) {
+      setError(e instanceof Error ? e.message : "An error occurred");
     }
   }
 

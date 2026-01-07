@@ -8,7 +8,7 @@ export default function ServiceCard({ service }: { service: Service }) {
         <div className="service-card-content">
           <h3 className="service-card-title">{service.name}</h3>
           <p className="service-card-copy">Duration: {service.durationMins} minutes</p>
-          <button className="btn" onClick={() => console.log(`Book ${service.name}`)}>
+          <button className="btn">
             Book Now
           </button>
         </div>

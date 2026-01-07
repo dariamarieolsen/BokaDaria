@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect, useState, useCallback } from 'react';
 import mapboxgl from 'mapbox-gl';
 import HairdresserIcon from '../assets/hairdresser.png'
 
@@ -41,7 +41,7 @@ function Map() {
 		return el;
 	};
 
-	const addMarkers = () => {
+	const addMarkers = useCallback(() => {
 		const customElement = createCustomMarker(HairdresserIcon);
 
 		const marker = new mapboxgl.Marker({
@@ -56,7 +56,7 @@ function Map() {
 			.addTo(mapRef.current!);
 
 		return marker;
-	};
+	}, []);
 
 	useEffect(() => {
 		if (!mapContainer.current) return;
@@ -68,8 +68,6 @@ function Map() {
 		}
 
 		mapboxgl.accessToken = accessToken;
-		console.log("Token is:", accessToken);
-
 
 		try {
 			mapRef.current = new mapboxgl.Map({
@@ -77,8 +75,8 @@ function Map() {
 				center: [13.0038, 55.6050], // starting position [lng, lat]
 				zoom: 12, // starting zoom
 			});
-		} catch (err) {
-			setError('Failed to initialize map');
+		} catch (error) {
+			setError(`Failed to initialize map: ${error instanceof Error ? error.message : String(error)}`);
 			return;
 		}
 
@@ -90,7 +88,7 @@ function Map() {
 			mapRef.current?.remove();
 			mapRef.current = null;
 		};
-	}, []);
+	}, [addMarkers]);
 
 	if (error) {
 		return (

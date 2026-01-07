@@ -1,15 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { darkTheme, lightTheme } from "./dark";
+import { ThemeContext } from "./context";
 
 type ThemeMode = "light" | "dark";
-
-type ThemeContextValue = {
-  mode: ThemeMode;
-  toggle: () => void;
-};
-
-//creating context, default value is null
-const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 //gets initial mode from localStorage or system preference
 function getInitialMode(): ThemeMode {
@@ -27,7 +20,7 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     try {
       localStorage.setItem("theme-mode", mode);
-    } catch { }
+    } catch { /* empty */ }
   }, [mode]);
 
   //setting css variables on :root on first render
@@ -39,7 +32,7 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
       radius = { sm: "4px", md: "8px", lg: "12px" },
       spacing = { sm: "8px", md: "12px", lg: "16px" },
       font = { family: "system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif", weight: 400 },
-    } = theme as any;
+    } = theme;
     root.style.setProperty("--color-primary", colors.primary);
     root.style.setProperty("--color-primary-hover", colors.primaryHover);
     root.style.setProperty("--color-on-primary", colors.textOnPrimary);
@@ -82,13 +75,6 @@ export function AppThemeProvider({ children }: { children: ReactNode }) {
 
   //AppThemeProvider is wrapping the whole app inside main.tsx, making it avalible to all its children
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
-}
-
-//use this hook in every component where I want to access the theme mode or toggle function
-export function useTheme() {
-  const ctx = useContext(ThemeContext);
-  if (!ctx) throw new Error("useTheme must be used within AppThemeProvider");
-  return ctx;
 }
 
 export default AppThemeProvider;
